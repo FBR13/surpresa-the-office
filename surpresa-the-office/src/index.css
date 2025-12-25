@@ -1,0 +1,64 @@
+@import "tailwindcss";
+
+@theme {
+  --color-retro-gray: #c0c0c0;
+  --color-windows-blue: #000080;
+}
+
+body {
+  margin: 0;
+  background-color: #008080; /* Fundo Teal clássico */
+  font-family: 'Tahoma', sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+/* Bordas Retro Estilo Windows 98 */
+.border-retro {
+  border-top: 2px solid #ffffff;
+  border-left: 2px solid #ffffff;
+  border-right: 2px solid #808080;
+  border-bottom: 2px solid #404040;
+}
+
+.border-retro-inset {
+  border-top: 2px solid #808080;
+  border-left: 2px solid #808080;
+  border-right: 2px solid #ffffff;
+  border-bottom: 2px solid #ffffff;
+}
+
+@keyframes heart-burst {
+  0% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+    filter: brightness(1);
+  }
+  50% {
+    transform: scale(1.5) rotate(15deg);
+    opacity: 0.7;
+    filter: brightness(1.5); /* Fica mais brilhante antes de sumir */
+  }
+  100% {
+    transform: scale(2) rotate(30deg);
+    opacity: 0;
+  }
+}
+
+/* Classe utilitária para aplicar a animação */
+.animate-heart-burst {
+  /* Roda a animação por 500ms e para no estado final (forwards) */
+  animation: heart-burst 0.5s ease-out forwards;
+  pointer-events: none; /* Garante que não dá pra clicar de novo enquanto explode */
+}
+
+@keyframes marquee {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
+.animate-marquee {
+  display: inline-block;
+  animation: marquee 10s linear infinite;
+}
