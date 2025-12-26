@@ -40,10 +40,12 @@ export const HeartGame = ({ isActive, onScore, onGameEnd }: HeartGameProps) => {
       };
       setHearts((prev) => [...prev, newHeart]);
 
+      // Aumentamos de 2000 para 4000 (agora o coração fica 4 segundos na tela)
       setTimeout(() => {
         setHearts((prev) => prev.filter(h => h.id !== newHeart.id));
-      }, 2000);
-    }, 800);
+      }, 4000); 
+
+    }, 1200); 
 
     return () => clearInterval(interval);
   }, [isActive, timeLeft]);
