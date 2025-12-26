@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { supabase } from './lib/supabase'; // Certifique-se de que este arquivo existe
+import { supabase } from './lib/supabase';
 import { RetroWindow } from './components/ui/RetroWindow';
 import { WeddingDate } from './components/features/WeddingDate';
 import { HeartGame } from './components/features/HeartGame';
@@ -10,7 +10,7 @@ import { JelloPrank } from './components/features/JelloPrank';
 import { MusicPlayer } from './components/features/MusicPlayer';
 import { LovePopups } from './components/features/LovePopups';
 import { PhotoCarousel } from './components/features/PhotoCarousel';
-import { Leaderboard } from './components/features/Leaderboard'; // Novo componente
+import { Leaderboard } from './components/features/Leaderboard';
 
 export default function App() {
   const [isLogged, setIsLogged] = useState(false);
@@ -27,23 +27,38 @@ export default function App() {
     "foto7.jpg",
   ];
 
-  // FUNÇÃO PARA SALVAR NO RANKING (SUPABASE)
+  // FUNÇÃO AJUSTADA PARA EVITAR DUPLICATAS (UPSERT)
   const handleSaveScore = async () => {
     const finalScore = score;
-    setGameActive(false); // Para o jogo visualmente
+    setGameActive(false);
 
     if (finalScore > 0) {
       const nomeUsuario = prompt("UAU! Que pontuação! Qual o seu nome para o Ranking?", "Riana") || "Anônimo";
       
-      const { error } = await supabase
+      // 1. Verificar se esse nome já tem um recorde no banco
+      const { data: recordeExistente } = await supabase
         .from('ranking')
-        .insert([{ nome: nomeUsuario, pontos: finalScore }]);
+        .select('pontos')
+        .eq('nome', nomeUsuario)
+        .single();
 
-      if (error) {
-        console.error("Erro ao salvar no ranking:", error);
+      // 2. Só atualiza se for a primeira vez do nome OU se a pontuação nova for maior
+      if (!recordeExistente || finalScore > recordeExistente.pontos) {
+        const { error } = await supabase
+          .from('ranking')
+          .upsert(
+            { nome: nomeUsuario, pontos: finalScore }, 
+            { onConflict: 'nome' } // Exige a constraint UNIQUE no banco
+          );
+
+        if (error) {
+          console.error("Erro ao atualizar ranking:", error);
+        }
       } else {
-        setScore(0); // Reseta o placar para a próxima rodada
+        alert(`${nomeUsuario}, você já tem um recorde melhor (${recordeExistente.pontos} pts)!`);
       }
+      
+      setScore(0); // Reseta o placar para a próxima rodada
     }
   };
 
@@ -53,27 +68,38 @@ export default function App() {
       <HeartGame 
         isActive={gameActive} 
         onScore={() => setScore(s => s + 1)} 
-        onGameEnd={handleSaveScore} // Chama o salvamento quando o timer acaba
+        onGameEnd={handleSaveScore} 
       />
       <Clippy />
       <LovePopups />
 
       {!isLogged ? (
+        /* --- TELA DE LOGIN --- */
         <div className="my-auto">
           <RetroWindow title="Login - Estação Riana Comanetti ">
             <div className="flex flex-col items-center gap-6 py-4 w-full text-center">
               <div className="bg-black border-retro-inset p-4 w-full flex justify-center">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/9/9c/Dunder_Mifflin%2C_Inc.svg" className="w-40 invert" alt="Logo" />
+                <img 
+                  src="https://upload.wikimedia.org/wikipedia/commons/9/9c/Dunder_Mifflin%2C_Inc.svg" 
+                  className="w-40 invert" 
+                  alt="Dunder Mifflin Logo" 
+                />
               </div>
               <div className="font-bold text-[10px] uppercase tracking-tight">
                 <p>Esta estação de trabalho pertence à:</p>
                 <p className="text-blue-900 mt-1">FUTURA PSICOLOGA RIANA COMANETTI</p>
               </div>
-              <button onClick={() => setIsLogged(true)} className="bg-[#c0c0c0] border-retro px-10 py-3 font-bold text-sm active:border-retro-inset uppercase">Entrar</button>
+              <button 
+                onClick={() => setIsLogged(true)}
+                className="bg-[#c0c0c0] border-retro px-10 py-3 font-bold text-sm active:border-retro-inset focus:outline-none uppercase"
+              >
+                Entrar
+              </button>
             </div>
           </RetroWindow>
         </div>
       ) : (
+        /* --- TELA PRINCIPAL --- */
         <div className="flex flex-col gap-6 w-full max-w-[95vw] animate-reveal">
           
           <RetroWindow title="Dunder_Mifflin_Player.exe">
@@ -84,7 +110,7 @@ export default function App() {
             <RelationshipTimer />
           </RetroWindow>
 
-          {/* RANKING GLOBAL */}
+          {/* RANKING COM LÓGICA DE RECORDE */}
           <RetroWindow title="Ranking_Estação.exe">
             <Leaderboard />
           </RetroWindow>
@@ -93,7 +119,9 @@ export default function App() {
             <div className="flex flex-col gap-4">
               <PhotoCarousel photos={minhasFotos} />
               <div className="bg-[#ffffd1] border border-gray-400 p-3 text-[10px] font-mono shadow-sm text-left leading-tight">
-                <p className="border-b border-gray-400 pb-1 mb-2 font-bold italic">DE: Felipe <br/>PARA: Riana</p>
+                <p className="border-b border-gray-400 pb-1 mb-2 font-bold italic">
+                  DE: Felipe <br/>PARA: Riana
+                </p>
                 <p>"Sabe, eu esperei muito tempo para encontrar alguém que fizesse eu me sentir como eu me sinto com você. Você é a minha Pam. Te amo."</p>
               </div>
             </div>
@@ -103,6 +131,7 @@ export default function App() {
             <RetroWindow title="The_Dundies.exe">
               <DundieGenerator />
             </RetroWindow>
+
             <RetroWindow title="Jim_Prank.exe">
               <JelloPrank />
             </RetroWindow>
@@ -114,7 +143,7 @@ export default function App() {
         </div>
       )}
 
-      {/* BARRA DE TAREFAS */}
+      {/* BARRA DE TAREFAS FIXA */}
       <footer className="fixed bottom-0 left-0 w-full bg-[#c0c0c0] border-t-2 border-white p-1 flex items-center justify-between z-[200]">
         <div className="flex items-center gap-2">
           <button 
