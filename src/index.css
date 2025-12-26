@@ -7,15 +7,13 @@
 
 body {
   margin: 0;
-  background-color: #008080; /* Fundo Teal clássico */
+  background-color: #008080;
   font-family: 'Tahoma', sans-serif;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   min-height: 100vh;
+  /* Removi o display flex aqui para não quebrar o layout do App.tsx */
 }
 
-/* Bordas Retro Estilo Windows 98 */
+/* --- BORDAS RETRO --- */
 .border-retro {
   border-top: 2px solid #ffffff;
   border-left: 2px solid #ffffff;
@@ -30,6 +28,19 @@ body {
   border-bottom: 2px solid #ffffff;
 }
 
+/* --- ANIMAÇÃO GLOBAL DE CLIQUE (WINDOWS 98 STYLE) --- */
+button:active {
+  /* Desloca o botão 1px para dar sensação de profundidade */
+  transform: translate(1px, 1px);
+  /* Inverte as cores da borda manualmente */
+  border-top-color: #808080 !important;
+  border-left-color: #808080 !important;
+  border-right-color: #ffffff !important;
+  border-bottom-color: #ffffff !important;
+  box-shadow: none !important;
+}
+
+/* --- ANIMAÇÕES DE CORAÇÃO --- */
 @keyframes heart-burst {
   0% {
     transform: scale(1) rotate(0deg);
@@ -39,7 +50,7 @@ body {
   50% {
     transform: scale(1.5) rotate(15deg);
     opacity: 0.7;
-    filter: brightness(1.5); /* Fica mais brilhante antes de sumir */
+    filter: brightness(1.5);
   }
   100% {
     transform: scale(2) rotate(30deg);
@@ -47,13 +58,12 @@ body {
   }
 }
 
-/* Classe utilitária para aplicar a animação */
 .animate-heart-burst {
-  /* Roda a animação por 500ms e para no estado final (forwards) */
   animation: heart-burst 0.5s ease-out forwards;
-  pointer-events: none; /* Garante que não dá pra clicar de novo enquanto explode */
+  pointer-events: none;
 }
 
+/* --- MARQUEE --- */
 @keyframes marquee {
   0% { transform: translateX(100%); }
   100% { transform: translateX(-100%); }
@@ -61,4 +71,41 @@ body {
 .animate-marquee {
   display: inline-block;
   animation: marquee 10s linear infinite;
+}
+
+@keyframes crt-flicker {
+  0% { opacity: 0.97; }
+  5% { opacity: 0.95; }
+  10% { opacity: 0.99; }
+  15% { opacity: 0.95; }
+  20% { opacity: 0.98; }
+  25% { opacity: 0.95; }
+  30% { opacity: 0.99; }
+  35% { opacity: 0.96; }
+  40% { opacity: 0.98; }
+  45% { opacity: 0.95; }
+  50% { opacity: 0.99; }
+  55% { opacity: 0.96; }
+  60% { opacity: 0.98; }
+  65% { opacity: 0.95; }
+  70% { opacity: 0.99; }
+  75% { opacity: 0.96; }
+  80% { opacity: 0.98; }
+  85% { opacity: 0.95; }
+  90% { opacity: 0.99; }
+  95% { opacity: 0.96; }
+  100% { opacity: 0.98; }
+}
+
+.animate-crt-flicker {
+  animation: crt-flicker 0.15s infinite;
+  pointer-events: none; /* Importante para não bloquear cliques */
+}
+
+/* Efeito de brilho e separação RGB para texto */
+.text-crt-glow {
+  text-shadow: 
+    2px 0px 1px rgba(255, 0, 0, 0.5), /* Vermelho deslocado */
+    -2px 0px 1px rgba(0, 255, 255, 0.5), /* Ciano deslocado */
+    0px 0px 8px rgba(100, 255, 100, 0.8); /* Brilho verde */
 }
