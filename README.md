@@ -1,73 +1,50 @@
-# React + TypeScript + Vite
+# 🖥️ Workstation_v2.0: Estação Riana Comanetti
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+> **Status do Sistema**: ONLINE ● 
+> **Versão**: Love_System_v1.0.25
+> **Data de Lançamento**: 26 de Dezembro de 2025
 
-Currently, two official plugins are available:
+Este projeto é uma **Workstation Neo-Retro** desenvolvida sob medida para Riana Comanetti. O sistema operacional simula a estética clássica do Windows 98 e o ambiente de escritório da Dunder Mifflin (The Office), operando com tecnologias modernas de alto desempenho.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+## 🎨 O Conceito (The Concept)
+A ideia central foi unir a nostalgia visual da computação dos anos 90 com uma experiência interativa e romântica. O site se comporta como um desktop funcional, adaptando seu layout de acordo com o dispositivo para garantir a melhor imersão.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## 🚀 Funcionalidades Principais
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### 🏢 Layout Inteligente e Responsivo
+* **Grid Dinâmico (PC)**: Organização em 3 colunas (proporção 3-6-3) que aproveita o espaço do monitor para exibir vários "apps" simultaneamente.
+* **Prioridade Mobile**: No celular, o sistema reorganiza as janelas (`order-1`) para destacar o conteúdo principal (Fotos e Contador) no topo.
+* **Desktop Icons**: Atalhos funcionais que utilizam `useRef` para navegação interna suave até as janelas correspondentes.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### 🎮 Heart_Game.exe (Ultra Spam Mode)
+* **Motor de Spawn**: Lógica de geração frenética de corações (intervalo de 100ms) para um desafio de reflexos.
+* **Simulação CRT**: Filtros SVG para curvatura de tela, scanlines horizontais e animação de flicker (chiado de monitor de tubo).
+* **Animação de Clique**: Feedback tátil global onde todos os botões "afundam" ao serem pressionados, respeitando a física do Windows 98.
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+### 📂 Aplicativos da Estação
+* **Ranking_Estação.exe**: Integração em tempo real com **Supabase** para persistência de recordes globais.
+* **Dunder_Mifflin_Player.exe**: Player de áudio dedicado com as trilhas favoritas.
+* **Contador_De_Amor.exe**: Timer preciso calculando o tempo de união.
+* **memorando.txt**: Bloco de notas com galeria de fotos integrada e mensagens personalizadas.
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+---
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 🛠️ Stack Tecnológica
+* **Frontend**: React.js com TypeScript (Tipagem estrita para estabilidade).
+* **Estilização**: Tailwind CSS v4 (Design atômico e animações por GPU).
+* **Backend**: Supabase (PostgreSQL & Realtime).
+* **Deploy**: Vercel (Pipeline de CI/CD automática).
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+---
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## 💾 Instalação e Execução
+
+Para rodar uma instância local deste sistema:
+
+1. Clone o repositório:
+   ```bash
+   git clone [https://github.com/seu-usuario/estacao-riana.git](https://github.com/seu-usuario/estacao-riana.git)
